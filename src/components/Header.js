@@ -16,14 +16,18 @@ export class Header extends React.Component {
         this.props.resetGame();
         this.props.history.push("/");
     }
+
+    handleCredits = () => {
+        window.open('https://github.com/AnushanLingam/OpenTrivia', '_blank');
+    }
     
     render() {
         return (
             <header className={"header"}>
                 <div className={"content-container"}>
                     <div className={"header__content"}>
-                        <button className={"header__title button--link button"} onClick={this.handleClick}><h1>OpenTrivia</h1></button>
-                        <button className="button--link button ">About</button>
+                        <button className={"header__title button--link button"} onClick={this.handleClick}><h1>BlockTrivia</h1></button>
+                        <button className="button--link button " onClick={this.handleCredits}>Built using OpenTrivia</button>
                     </div>
                 </div>
             </header>

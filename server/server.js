@@ -73,7 +73,7 @@ io.on("connection", (socket) => {
                 } else {
                     callback({
                         code: "NAMEERROR",
-                        msg: `${config.name} is already being used in room: ${config.room}`
+                        msg: `${config.name} has already joined the room ${config.room}`
                     });
                 }
             } else {
@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
         } else {
             callback({
                 code: "NAMEERROR",
-                msg: `Please enter both the room name and username.`
+                msg: `Please enter both the room name and address.`
             });
         }
     })

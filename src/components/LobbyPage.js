@@ -25,7 +25,7 @@ export class LobbyPage extends React.Component {
                         <div className="list-header">
                             <h2 className={"box-layout__title"}>Waiting for players</h2>
                             {this.props.players.length > 0 && this.props.type === "HOST" && <Fade><button onClick={this.onStartGame} className="button">Start Game</button></Fade>}
-                            {this.props.type === "HOST" && <h2 className={"box-layout__title"}>Room Code: <b>{this.props.room}</b></h2>}
+                            {this.props.type === "HOST" && <h2 className={"box-layout__title"}>Room: <b>{this.props.room}</b></h2>}
 
                         </div>
                         {
