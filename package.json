@@ -54,6 +54,7 @@
     "style-loader": "^0.23.1",
     "uuid": "^3.3.2",
     "validator": "^10.9.0",
+    "web3": "^1.0.0-beta.55",
     "webpack": "^4.27.1"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@ const path = require("path");
 const { TriviaGameManager } = require("./utils/triviaGameManager");
 const { isValidString } = require("./utils/validate");
 const { getCategories, shuffleArray } = require("./utils/questions");
+const { web3 } = require("./utils/web3");
 
 
 const port = process.env.PORT || 3000;
@@ -63,13 +64,20 @@ io.on("connection", (socket) => {
 
             if (!games.checkRoomName(config.room)) {
                 if (games.checkUsername(config.room, config.name)) {
-                    games.addPlayer(config.room, config.name, socket.id);
-                    socket.join(config.room);
-                    socket.emit("joinedRoom");
-                    var game = games.getGameByRoom(config.room);
-                    var players = games.getFromRoom(config.room);
-                    callback({code: "success"});
-                    io.to(game.host).emit("PLAYER-CONNECTED", { name: config.name, colour: config.colour, score: 0, stroke: "" });
+                    if (web3.utils.isAddress(config.name)) {
+                        games.addPlayer(config.room, config.name, socket.id);
+                        socket.join(config.room);
+                        socket.emit("joinedRoom");
+                        var game = games.getGameByRoom(config.room);
+                        var players = games.getFromRoom(config.room);
+                        callback({code: "success"});
+                        io.to(game.host).emit("PLAYER-CONNECTED", { name: config.name, colour: config.colour, score: 0, stroke: "" });
+                    } else {
+                        callback({
+                            code: "NAMEERROR",
+                            msg: `${config.name} is an invalid address!`
+                        });
+                    }
                 } else {
                     callback({
                         code: "NAMEERROR",
