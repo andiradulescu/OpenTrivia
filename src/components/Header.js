@@ -18,7 +18,7 @@ export class Header extends React.Component {
     }
 
     handleCredits = () => {
-        window.open('https://github.com/AnushanLingam/OpenTrivia', '_blank');
+        window.open('https://github.com/andiradulescu/BlockTrivia', '_blank');
     }
     
     render() {
