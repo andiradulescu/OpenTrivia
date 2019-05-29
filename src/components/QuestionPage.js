@@ -94,7 +94,7 @@ export class QuestionPage extends React.Component {
                                         return (
                                             <div key={player.name} className="list-item">
                                                 <h3>{player.name}</h3>
-                                                <h3>Sending {player.score} BTV</h3>
+                                                <h3>{player.score > 0 ? 'You won ' +  player.score + " BTV!" : player.score}</h3>
                                             </div>
                                         )
                                     })
