@@ -8,11 +8,20 @@ import QuestionOptions from './QuestionOptions';
 import { setMessage, resetGame } from '../actions/game';
 import { resetType } from '../actions/clientType';
 import { resetPlayers } from '../actions/players';
+import ReactCountdownClock from 'react-countdown-clock';
 
 export class QuestionPage extends React.Component {
 
     submitAnswer = (e) => {
-        const ans = e.target.value;
+
+        let ans = "";
+
+        if (typeof e !== 'undefined') {
+            ans = e.target.value
+        } else {
+            ans = "False"
+        }
+        
         socket.emit("submitAnswer", ans, (res) => {
 
             if (res.code === "correct") {
@@ -22,6 +31,10 @@ export class QuestionPage extends React.Component {
             }
         });
     };
+
+    myCallback = () => {
+        console.log("Completed");
+    }
 
     handleReset = () => {
         socket.disconnect();
@@ -46,6 +59,13 @@ export class QuestionPage extends React.Component {
                                             <div className="list-header">
                                                 <h2 className={"box-layout__title"}>{this.props.question.question}</h2>
                                             </div>
+                                            <ReactCountdownClock 
+                                                seconds={10}
+                                                color="#fff"
+                                                alpha={0.9}
+                                                size={100}
+                                                onComplete={this.submitAnswer} 
+                                            />
                                             <div className="question-background">
                                                 <QuestionOptions type={this.props.type} message={this.props.question.message} submitAnswer={this.submitAnswer} options={this.props.question.options} />
                                             </div>
