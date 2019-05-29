@@ -6,7 +6,7 @@ const path = require("path");
 const { TriviaGameManager } = require("./utils/triviaGameManager");
 const { isValidString } = require("./utils/validate");
 const { getCategories, shuffleArray } = require("./utils/questions");
-const { web3 } = require("./utils/web3");
+const { web3, contract } = require("./utils/web3");
 
 
 const port = process.env.PORT || 3000;
@@ -156,6 +156,8 @@ io.on("connection", (socket) => {
                             score: player.score
                         };
                         response.push(p);
+
+                        sendTokens(player.username, player.score);
                     })
                     io.to(player.room).emit("msg");
                     io.to(player.room).emit("gameFinished", response);
@@ -227,6 +229,21 @@ function setupQuestion(roomName) {
     ;
 }
 
+function sendTokens(address, value) {
+    console.log("Minting " + value + " tokens to " + address);
+    contract.methods.mint(address, web3.utils.toWei(value.toString(), "ether")).send()
+    .on('transactionHash', (hash) => {
+        console.log("Transaction hash: " + hash)
+    })
+    // .on('confirmation', (confirmationNumber, receipt) => {
+    //     console.log("Confirmation number: " + confirmationNumber)
+    // })
+    .on('receipt', (receipt) => {
+        // receipt example
+        console.log("Receipt: " + receipt);
+    })
+    .on('error', console.error); // If there's an out of gas error the second parameter is the receipt.    
+}
 
 app.use(express.static(publicPath));
 
